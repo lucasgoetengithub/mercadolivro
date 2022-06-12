@@ -1,6 +1,5 @@
 package com.mercadolivro.controller.request
 
-class PostCustomerRequest(
-        var id: String,
+data class PostCustomerRequest(
         var nome: String,
         var email: String)
