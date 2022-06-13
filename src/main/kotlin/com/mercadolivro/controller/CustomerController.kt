@@ -3,6 +3,7 @@ package com.mercadolivro.controller
 import com.mercadolivro.controller.request.PostCustomerRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.model.CustomerModel
+import com.mercadolivro.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,49 +18,38 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("customer")
-class CustomerController {
+class CustomerController(
+    val customerService: CustomerService
+) {
 
-    val customers = mutableListOf<CustomerModel>()
+
 
     @GetMapping
     fun getAll(@RequestParam nome: String?): List<CustomerModel> {
-        nome?.let {
-            return customers.filter { it.nome.contains(nome, ignoreCase = true)}
-        }
-        return customers
+        return customerService.getAll(nome)
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     fun createCustomer(@RequestBody customer:PostCustomerRequest){
 
-        val id = if (customers.isEmpty()){
-            1
-        } else {
-            customers.last().id.toInt() +1
-        }.toString()
-
-        customers.add(CustomerModel(id, customer.nome, customer.email))
-        println(customer)
+        customerService.createCustomer(customer)
     }
 
     @GetMapping("/{id}")
     fun getCustomer(@PathVariable id:String): CustomerModel {
-        return customers.filter { it.id == id }.first()
+        return customerService.getCustomer(id)
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateCustomer(@PathVariable id:String, @RequestBody customer: PutCustomerRequest) {
-        customers.filter { it.id == id }.first().let {
-            it.nome = customer.nome
-            it.email= customer.email
-        }
+        customerService.updateCustomer(id,customer)
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCustomer(@PathVariable id:String) {
-        customers.removeIf { it.id == id }
+        customerService.deleteCustomer(id)
     }
 }
