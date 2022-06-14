@@ -1,5 +1,6 @@
 package com.mercadolivro.service
 
+import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.repository.BookRepository
 import org.springframework.stereotype.Service
@@ -9,8 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable
 class BookService(
     val bookRepository: BookRepository 
 ) {
-    fun getAll(nome: String?): List<BookModel> {
-        
+    fun getAll(): List<BookModel> {
         return bookRepository.findAll().toList()
     }
 
@@ -30,6 +30,12 @@ class BookService(
     }
 
     fun deleteBook(@PathVariable id:Int) {
-        bookRepository.deleteById(id)
+        val book = getByIdBook(id)
+        book.status = BookStatus.CANCELADO
+        bookRepository.save(book)
+    }
+
+    fun findActives(): List<BookModel> {
+        return bookRepository.findByStatus(BookStatus.ATIVO)
     }
 }
