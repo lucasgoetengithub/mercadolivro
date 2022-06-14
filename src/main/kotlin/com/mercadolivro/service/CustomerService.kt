@@ -12,7 +12,7 @@ class CustomerService(
 
     fun getAll(nome: String?): List<CustomerModel> {
         nome?.let {
-            return customerRepository.findByNome(it)
+            return customerRepository.findByNomeContaining(it)
         }
         return customerRepository.findAll().toList()
     }
