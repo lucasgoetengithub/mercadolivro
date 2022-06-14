@@ -23,6 +23,7 @@ class CustomerService {
             customers.last().id!!.toInt() +1
         }.toString()
 
+        customer.id = id;
         customers.add(customer)
         println(customer)
     }
