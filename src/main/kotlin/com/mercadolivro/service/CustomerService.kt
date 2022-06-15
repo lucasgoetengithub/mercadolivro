@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable
 
 @Service
 class CustomerService(
-    val customerRepository : CustomerRepository
+    val customerRepository : CustomerRepository,
+    val bookService: BookService
     ) {
 
     fun getAll(nome: String?): List<CustomerModel> {
@@ -21,7 +22,7 @@ class CustomerService(
         customerRepository.save(customer)
     }
 
-    fun getByIdCustomer(id:Int): CustomerModel {
+    fun findById(id:Int): CustomerModel {
         return customerRepository.findById(id).orElseThrow()
     }
 
@@ -33,6 +34,8 @@ class CustomerService(
     }
 
     fun deleteCustomer(@PathVariable id:Int) {
+        val customer = findById(id)
+        bookService.deleteByCustomer(customer)
         customerRepository.deleteById(id)
     }
 }

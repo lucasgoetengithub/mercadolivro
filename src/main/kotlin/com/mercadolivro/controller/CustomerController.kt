@@ -4,6 +4,7 @@ import com.mercadolivro.controller.request.PostCustomerRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.extension.toCustomerModel
 import com.mercadolivro.model.CustomerModel
+import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -37,8 +38,8 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id:Int): CustomerModel {
-        return customerService.getByIdCustomer(id)
+    fun findById(@PathVariable id:Int): CustomerModel {
+        return customerService.findById(id)
     }
 
     @PutMapping("/{id}")
