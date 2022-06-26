@@ -39,13 +39,13 @@ class BookController(
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id:Int): BookReponse {
-        return bookService.getByIdBook(id).toResponse()
+        return bookService.findbyId(id).toResponse()
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateBook(@PathVariable id:Int, @RequestBody customer: PutBookRequest) {
-        val book = bookService.getByIdBook(id)
+        val book = bookService.findbyId(id)
         bookService.updateBook(customer.toBookModel(book))
     }
 

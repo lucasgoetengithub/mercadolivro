@@ -21,7 +21,7 @@ class BookService(
         bookRepository.save(book)
     }
 
-    fun getByIdBook(id:Int): BookModel {
+    fun findbyId(id:Int): BookModel {
         return bookRepository.findById(id).orElseThrow()
     }
 
@@ -33,7 +33,7 @@ class BookService(
     }
 
     fun deleteBook(@PathVariable id:Int) {
-        val book = getByIdBook(id)
+        val book = findbyId(id)
         book.status = BookStatus.CANCELADO
         bookRepository.save(book)
     }
