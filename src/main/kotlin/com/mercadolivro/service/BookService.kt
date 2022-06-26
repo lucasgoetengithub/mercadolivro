@@ -23,7 +23,7 @@ class BookService(
     }
 
     fun findbyId(id:Int): BookModel {
-        return bookRepository.findById(id).orElseThrow{ NotFoundException("Book ${id} not exists", "ML-0001") }
+        return bookRepository.findById(id).orElseThrow{ NotFoundException("Book [${id}] not exists", "ML-0001") }
     }
 
     fun updateBook(Book: BookModel) {
