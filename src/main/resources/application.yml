@@ -2,10 +2,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      show-sql: true
 
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/mercadolivro?createDatabaseIfNotExist=true
     username: root
     password: Adminlucasmysql5599!!
     driver-class-name: com.mysql.cj.jdbc.Driver
-#spring.jpa.show-sql: true
+  jackson:
+    default-property-inclusion: non_null
