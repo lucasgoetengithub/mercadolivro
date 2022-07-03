@@ -6,8 +6,8 @@ import javax.validation.constraints.NotEmpty
 
 data class PostCustomerRequest(
 
-        @field:NotEmpty
+        @field:NotEmpty(message = "Nome deve ser informado.")
         var nome: String,
 
-        @field:Email
+        @field:Email(message = "E-mail deve ser válido.")
         var email: String)
