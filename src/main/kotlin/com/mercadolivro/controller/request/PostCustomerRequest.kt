@@ -1,6 +1,7 @@
 package com.mercadolivro.controller.request
 
 import com.mercadolivro.model.CustomerModel
+import com.mercadolivro.validation.EmailAvailable
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 
@@ -10,4 +11,5 @@ data class PostCustomerRequest(
         var nome: String,
 
         @field:Email(message = "E-mail deve ser válido.")
+        @EmailAvailable
         var email: String)
