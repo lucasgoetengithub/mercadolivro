@@ -21,6 +21,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.7.0")
 	implementation("org.springframework.boot:spring-boot-starter-validation:2.7.1")
 
+	implementation("io.springfox:springfox-swagger2:2.9.2")
+	implementation("io.springfox:springfox-swagger-ui:2.9.2")
 
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -30,8 +32,6 @@ dependencies {
 
 
 	runtimeOnly("mysql:mysql-connector-java")
-
-
 
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
