@@ -1,8 +1,9 @@
 package com.mercadolivro.controller
 
+import com.mercadolivro.controller.apidoc.BookControllerOpenApi
 import com.mercadolivro.controller.request.PostBookRequest
 import com.mercadolivro.controller.request.PutBookRequest
-import com.mercadolivro.controller.response.BookReponse
+import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.extension.toBookModel
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.service.BookService
@@ -19,40 +20,40 @@ import javax.validation.Valid
 class BookController(
     val bookService: BookService,
     val customerService: CustomerService
-) {
+) : BookControllerOpenApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun createBook(@RequestBody @Valid request: PostBookRequest) {
+    override fun create(@RequestBody @Valid request: PostBookRequest) {
         var customer = customerService.findById(request.customerId)
         bookService.createBook(request.toBookModel(customer))
     }
 
     @GetMapping
-    fun getAll(@PageableDefault(page = 0, size = 10) pageable : Pageable) : Page<BookReponse> {
+    override fun getAll(@PageableDefault(page = 0, size = 10) pageable : Pageable) : Page<BookResponse> {
         return bookService.getAll(pageable).map { it.toResponse() }
     }
 
     @GetMapping("/active")
-    fun getActive(@PageableDefault(page = 0, size = 10) pageable : Pageable) : Page<BookReponse> =
+    override fun getActives(@PageableDefault(page = 0, size = 10) pageable : Pageable) : Page<BookResponse> =
         bookService.findActives(pageable).map { it.toResponse() }
 
 
     @GetMapping("/{id}")
-    fun getById(@PathVariable id:Int): BookReponse {
+    override fun getById(@PathVariable id:Int): BookResponse {
         return bookService.findbyId(id).toResponse()
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun updateBook(@PathVariable id:Int, @RequestBody customer: PutBookRequest) {
+    override fun updateById(@PathVariable id:Int, @RequestBody customer: PutBookRequest) {
         val book = bookService.findbyId(id)
         bookService.updateBook(customer.toBookModel(book))
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteCustomer(@PathVariable id:Int) {
+    override fun deleteById(@PathVariable id:Int) {
         bookService.deleteBook(id)
     }
 }
